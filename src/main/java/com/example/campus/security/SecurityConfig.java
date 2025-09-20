@@ -27,6 +27,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+<<<<<<< HEAD
                 // Disable CSRF for API usage
                 .csrf(csrf -> csrf.disable())
 
@@ -58,6 +59,38 @@ public class SecurityConfig {
                 // Disable default login form & logout
                 .formLogin(form -> form.disable())
                 .logout(logout -> logout.disable());
+=======
+            // Disable CSRF for API usage
+            .csrf(csrf -> csrf.disable())
+            
+            // Stateless session; JWT will handle auth
+            .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            
+            // Authorization rules
+            .authorizeHttpRequests(auth -> auth
+                // Public endpoints
+                .requestMatchers("/", "/index.html", "/css/**", "/js/**", "/images/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/auth/signup", "/api/auth/login").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/auth/me").permitAll()
+
+                // Role-based access
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                .requestMatchers("/api/faculty/**").hasRole("FACULTY")
+                .requestMatchers("/api/student/**").hasRole("STUDENT")
+                .requestMatchers("/api/library/**").hasAnyRole("ADMIN", "FACULTY", "STUDENT")
+                .requestMatchers("/api/timetable/**").hasAnyRole("ADMIN", "FACULTY", "STUDENT")
+
+                // Everything else requires authentication
+                .anyRequest().authenticated()
+            )
+
+            // Add JWT filter before the UsernamePasswordAuthenticationFilter
+            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+
+            // Disable default login form & logout
+            .formLogin(form -> form.disable())
+            .logout(logout -> logout.disable());
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
 
         return http.build();
     }

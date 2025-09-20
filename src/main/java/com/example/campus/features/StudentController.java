@@ -10,8 +10,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+<<<<<<< HEAD
 import com.example.campus.entity.Book;
 import com.example.campus.repository.BookRepository;
+=======
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -24,6 +27,7 @@ public class StudentController {
 
     @Autowired
     private AttendanceRepository attendanceRepository;
+<<<<<<< HEAD
 
     @Autowired
     private AssignmentRepository assignmentRepository;
@@ -57,6 +61,39 @@ public class StudentController {
     @Autowired
     private TimetableRepository timetableRepository;
 
+=======
+    
+    @Autowired
+    private AssignmentRepository assignmentRepository;
+    
+    @Autowired
+    private AssignmentSubmissionRepository submissionRepository;
+    
+    @Autowired
+    private MarkRepository markRepository;
+    
+    @Autowired
+    private FeeRepository feeRepository;
+    
+    @Autowired
+    private NotificationRepository notificationRepository;
+    
+    @Autowired
+    private FeedbackRepository feedbackRepository;
+    
+    @Autowired
+    private UserRepository userRepository;
+    
+    @Autowired
+    private StudentRepository studentRepository;
+    
+    @Autowired
+    private SubjectRepository subjectRepository;
+    
+    @Autowired
+    private TimetableRepository timetableRepository;
+    
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
 
     @GetMapping("/dashboard")
     public ResponseEntity<?> dashboard(@AuthenticationPrincipal UserDetails userDetails) {
@@ -71,6 +108,7 @@ public class StudentController {
 
             // Today's attendance
             List<Attendance> todayAttendance = attendanceRepository.findByStudentIdAndDate(studentId, today);
+<<<<<<< HEAD
 
             // Pending assignments
             List<Assignment> pendingAssignments = assignmentRepository.findUpcomingAssignments(LocalDateTime.now());
@@ -83,6 +121,20 @@ public class StudentController {
             List<Notification> notifications = notificationRepository.findByTargetRoleOrAll(Notification.TargetRole.STUDENT);
             notifications = notifications.stream().limit(5).toList();
 
+=======
+            
+            // Pending assignments
+            List<Assignment> pendingAssignments = assignmentRepository.findUpcomingAssignments(LocalDateTime.now());
+            
+            // Fee status
+            BigDecimal totalPaid = feeRepository.calculateTotalPaid(studentId);
+            BigDecimal totalPending = feeRepository.calculateTotalPending(studentId);
+            
+            // Recent notifications
+            List<Notification> notifications = notificationRepository.findByTargetRoleOrAll(Notification.TargetRole.STUDENT);
+            notifications = notifications.stream().limit(5).toList();
+            
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
             // CGPA calculation
             Double cgpa = markRepository.calculateCGPA(studentId);
             if (cgpa == null) cgpa = 0.0;
@@ -129,7 +181,11 @@ public class StudentController {
             List<Attendance> attendance = attendanceRepository.findByStudentIdAndSubject(user.getId(), subject);
             Long present = attendanceRepository.countPresentByStudentAndSubject(user.getId(), subject);
             Long total = attendanceRepository.countTotalByStudentAndSubject(user.getId(), subject);
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
             Map<String, Object> result = new HashMap<>();
             result.put("attendance", attendance);
             result.put("present", present);
@@ -142,6 +198,7 @@ public class StudentController {
         }
     }
 
+<<<<<<< HEAD
     @Autowired
     private BookRepository bookRepository;
 
@@ -177,6 +234,8 @@ public class StudentController {
 
 
 
+=======
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
     @GetMapping("/assignments")
     public ResponseEntity<?> getAssignments(@AuthenticationPrincipal UserDetails userDetails) {
         try {
@@ -329,13 +388,21 @@ public class StudentController {
 
             // Get today's day of week
             String today = LocalDate.now().getDayOfWeek().toString();
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
             // Try to find actual timetable, if not found create mock data
             List<Timetable> timetable = timetableRepository.findByDayOfWeek(Timetable.DayOfWeek.valueOf(today));
             if (timetable.isEmpty()) {
                 // Create mock timetable data
                 List<Map<String, Object>> mockTimetable = new ArrayList<>();
+<<<<<<< HEAD
 
+=======
+                
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
                 Map<String, Object> class1 = new HashMap<>();
                 class1.put("id", 1L);
                 class1.put("subject", "Operating Systems");
@@ -381,7 +448,11 @@ public class StudentController {
                 result.put("totalClasses", 4);
                 result.put("totalHours", 4.0);
                 result.put("day", today);
+<<<<<<< HEAD
 
+=======
+                
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
                 return ResponseEntity.ok(result);
             }
 
@@ -390,7 +461,11 @@ public class StudentController {
             result.put("totalClasses", timetable.size());
             result.put("totalHours", timetable.size() * 1.0); // Assuming 1 hour per class
             result.put("day", today);
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(Map.of("error", e.getMessage()));
@@ -404,11 +479,19 @@ public class StudentController {
             if (subjects.isEmpty()) {
                 // Create mock subjects
                 List<Map<String, Object>> mockSubjects = new ArrayList<>();
+<<<<<<< HEAD
 
                 String[] subjectNames = {"Operating Systems", "Computer Networks", "Data Structures",
                         "Database Management", "Software Engineering", "Web Development"};
                 String[] subjectCodes = {"CS301", "CS302", "CS303", "CS304", "CS305", "CS306"};
 
+=======
+                
+                String[] subjectNames = {"Operating Systems", "Computer Networks", "Data Structures", 
+                                       "Database Management", "Software Engineering", "Web Development"};
+                String[] subjectCodes = {"CS301", "CS302", "CS303", "CS304", "CS305", "CS306"};
+                
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
                 for (int i = 0; i < subjectNames.length; i++) {
                     Map<String, Object> subject = new HashMap<>();
                     subject.put("id", (long)(i + 1));
@@ -420,13 +503,26 @@ public class StudentController {
                     subject.put("academicYear", "2023-24");
                     mockSubjects.add(subject);
                 }
+<<<<<<< HEAD
 
                 return ResponseEntity.ok(mockSubjects);
             }
 
+=======
+                
+                return ResponseEntity.ok(mockSubjects);
+            }
+            
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
             return ResponseEntity.ok(subjects);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(Map.of("error", e.getMessage()));
         }
     }
+<<<<<<< HEAD
 }
+=======
+}
+
+
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d

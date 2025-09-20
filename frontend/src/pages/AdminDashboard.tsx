@@ -34,9 +34,13 @@ export default function AdminDashboard() {
 		{ id: 'reports', label: 'Reports', icon: '📈' },
 		{ id: 'feedback', label: 'Feedback', icon: '💬' },
 		{ id: 'notifications', label: 'Notifications', icon: '🔔' },
+<<<<<<< HEAD
 		{ id: 'analytics', label: 'Analytics', icon: '📊' },
 		{ id: 'library', label: 'Library Management', icon: '📚' }
 
+=======
+		{ id: 'analytics', label: 'Analytics', icon: '📊' }
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
 	]
 
 	return (
@@ -115,14 +119,18 @@ export default function AdminDashboard() {
 				{activeTab === 'feedback' && <FeedbackManagement />}
 				{activeTab === 'notifications' && <NotificationManagement />}
 				{activeTab === 'analytics' && <AnalyticsManagement />}
+<<<<<<< HEAD
 				{activeTab === 'library' && <LibraryManagement />}
 
+=======
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
 			</div>
 		</div>
 	)
 }
 
 function UserManagement() {
+<<<<<<< HEAD
   const [users, setUsers] = useState<any[]>([])
   const [newUser, setNewUser] = useState({
     username: '',
@@ -281,6 +289,169 @@ function UserManagement() {
       </div>
     </div>
   )
+=======
+	const [users, setUsers] = useState<any[]>([])
+	const [newUser, setNewUser] = useState({
+		username: '',
+		password: '',
+		role: 'STUDENT'
+	})
+	const [loading, setLoading] = useState(true)
+	const [submitting, setSubmitting] = useState(false)
+	const [message, setMessage] = useState('')
+
+	useEffect(() => {
+		fetchUsers()
+	}, [])
+
+	const fetchUsers = async () => {
+		try {
+			const res = await api.get('/admin/users')
+			setUsers(res.data)
+		} catch (err) {
+			console.error('Failed to fetch users:', err)
+		} finally {
+			setLoading(false)
+		}
+	}
+
+	const handleSubmit = async (e: React.FormEvent) => {
+      e.preventDefault()
+      setSubmitting(true)
+      setMessage('')
+
+      try {
+        const payload = {
+          username: newUser.username,
+          password: newUser.password,
+          role: newUser.role
+          // ✅ Do NOT include studentId
+        }
+
+        console.log('Submitting user:', newUser)
+        console.log('Sending payload:', payload)
+
+        await api.post('/admin/users', payload)
+        console.log('Form submitted')
+
+
+        setMessage('User created successfully!')
+        setNewUser({
+          username: '',
+          password: '',
+          role: 'STUDENT'
+        })
+
+        fetchUsers()
+      } catch (err) {
+        console.error('Error creating user:', err)
+        setMessage('Failed to create user')
+      } finally {
+        setSubmitting(false)
+      }
+    }
+
+
+
+
+	const handleDelete = async (userId: number) => {
+		if (window.confirm('Are you sure you want to delete this user?')) {
+			try {
+				await api.delete(`/admin/users/${userId}`)
+				setMessage('User deleted successfully!')
+				fetchUsers()
+			} catch (err) {
+				setMessage('Failed to delete user')
+			}
+		}
+	}
+
+	if (loading) return <div className="loading">Loading users...</div>
+
+	return (
+		<div className="tab-content">
+			<h2>User Management</h2>
+			
+			<div className="user-form-section">
+				<h3>Create New User</h3>
+				<form onSubmit={handleSubmit} className="user-form">
+					<div className="form-row">
+						<div className="form-group">
+							<label>Username</label>
+							<input
+								type="text"
+								value={newUser.username}
+								onChange={(e) => setNewUser({...newUser, username: e.target.value})}
+								required
+							/>
+						</div>
+						<div className="form-group">
+							<label>Password</label>
+							<input
+								type="password"
+								value={newUser.password}
+								onChange={(e) => setNewUser({...newUser, password: e.target.value})}
+								required
+							/>
+						</div>
+						<div className="form-group">
+							<label>Role</label>
+							<select
+								value={newUser.role}
+								onChange={(e) => setNewUser({...newUser, role: e.target.value})}
+							>
+								<option value="STUDENT">Student</option>
+								<option value="FACULTY">Faculty</option>
+								<option value="ADMIN">Admin</option>
+							</select>
+						</div>
+					</div>
+					<button type="submit" disabled={submitting} className="submit-button">
+						{submitting ? 'Creating...' : 'Create User'}
+					</button>
+					{message && <div className="message">{message}</div>}
+				</form>
+			</div>
+
+			<div className="users-list">
+				<h3>All Users</h3>
+				<div className="users-table">
+					<table>
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Username</th>
+								<th>Role</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							{users.map((user, index) => (
+								<tr key={index}>
+									<td>{user.id}</td>
+									<td>{user.username}</td>
+									<td>
+										<span className={`role-badge ${user.role.toLowerCase()}`}>
+											{user.role}
+										</span>
+									</td>
+									<td>
+										<button
+											onClick={() => handleDelete(user.id)}
+											className="delete-button"
+										>
+											Delete
+										</button>
+									</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	)
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
 }
 
 function ReportsManagement() {
@@ -300,7 +471,11 @@ function ReportsManagement() {
 				api.get('/admin/fees/reports'),
 				api.get('/admin/assignments/reports')
 			])
+<<<<<<< HEAD
 
+=======
+			
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
 			setReports({
 				attendance: attendanceRes.data,
 				marks: marksRes.data,
@@ -326,7 +501,11 @@ function ReportsManagement() {
 	return (
 		<div className="tab-content">
 			<h2>Reports & Analytics</h2>
+<<<<<<< HEAD
 
+=======
+			
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
 			<div className="reports-tabs">
 				{reportTabs.map(tab => (
 					<button
@@ -410,6 +589,7 @@ function ReportsManagement() {
 		</div>
 	)
 }
+<<<<<<< HEAD
 function LibraryManagement() {
   const [books, setBooks] = useState<any[]>([])
   const [students, setStudents] = useState<any[]>([])
@@ -550,6 +730,8 @@ function LibraryManagement() {
     </div>
   )
 }
+=======
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
 
 function FeedbackManagement() {
 	const [feedback, setFeedback] = useState<any[]>([])
@@ -601,7 +783,11 @@ function FeedbackManagement() {
 	return (
 		<div className="tab-content">
 			<h2>Feedback Management</h2>
+<<<<<<< HEAD
 
+=======
+			
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
 			<div className="feedback-list">
 				{feedback.map((item, index) => (
 					<div key={index} className="feedback-card">
@@ -624,7 +810,11 @@ function FeedbackManagement() {
 								Respond
 							</button>
 						</div>
+<<<<<<< HEAD
 
+=======
+						
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
 						{item.adminResponse && (
 							<div className="admin-response">
 								<h4>Admin Response:</h4>
@@ -675,6 +865,7 @@ function FeedbackManagement() {
 		</div>
 	)
 }
+<<<<<<< HEAD
 function NotificationManagement() {
   const [notifications, setNotifications] = useState<any[]>([])
   const [newNotification, setNewNotification] = useState({
@@ -879,6 +1070,124 @@ function NotificationManagement() {
 
 
 
+=======
+
+function NotificationManagement() {
+	const [notifications, setNotifications] = useState<any[]>([])
+	const [newNotification, setNewNotification] = useState({
+		title: '',
+		message: '',
+		targetRole: 'ALL'
+	})
+	const [loading, setLoading] = useState(true)
+	const [submitting, setSubmitting] = useState(false)
+	const [message, setMessage] = useState('')
+
+	useEffect(() => {
+		fetchNotifications()
+	}, [])
+
+	const fetchNotifications = async () => {
+		try {
+			const res = await api.get('/admin/notifications')
+			setNotifications(res.data)
+		} catch (err) {
+			console.error('Failed to fetch notifications:', err)
+		} finally {
+			setLoading(false)
+		}
+	}
+
+	const handleSubmit = async (e: React.FormEvent) => {
+		e.preventDefault()
+		setSubmitting(true)
+		setMessage('')
+
+		try {
+			await api.post('/admin/notifications', newNotification)
+			setMessage('Notification created successfully!')
+			setNewNotification({
+				title: '',
+				message: '',
+				targetRole: 'ALL'
+			})
+			fetchNotifications()
+		} catch (err) {
+			setMessage('Failed to create notification')
+		} finally {
+			setSubmitting(false)
+		}
+	}
+
+	if (loading) return <div className="loading">Loading notifications...</div>
+
+	return (
+		<div className="tab-content">
+			<h2>Notification Management</h2>
+			
+			<div className="notification-form-section">
+				<h3>Create New Notification</h3>
+				<form onSubmit={handleSubmit} className="notification-form">
+					<div className="form-group">
+						<label>Title</label>
+						<input
+							type="text"
+							value={newNotification.title}
+							onChange={(e) => setNewNotification({...newNotification, title: e.target.value})}
+							required
+						/>
+					</div>
+					<div className="form-group">
+						<label>Message</label>
+						<textarea
+							value={newNotification.message}
+							onChange={(e) => setNewNotification({...newNotification, message: e.target.value})}
+							rows={4}
+							required
+						/>
+					</div>
+					<div className="form-group">
+						<label>Target Role</label>
+						<select
+							value={newNotification.targetRole}
+							onChange={(e) => setNewNotification({...newNotification, targetRole: e.target.value})}
+						>
+							<option value="STUDENT">Students</option>
+							<option value="FACULTY">Faculty</option>
+							<option value="ADMIN">Admin</option>
+							<option value="ALL">All Users</option>
+						</select>
+					</div>
+					<button type="submit" disabled={submitting} className="submit-button">
+						{submitting ? 'Creating...' : 'Create Notification'}
+					</button>
+					{message && <div className="message">{message}</div>}
+				</form>
+			</div>
+
+			<div className="notifications-list">
+				<h3>All Notifications</h3>
+				{notifications.map((notification, index) => (
+					<div key={index} className="notification-card">
+						<div className="notification-header">
+							<h4>{notification.title}</h4>
+							<span className="notification-target">{notification.targetRole}</span>
+						</div>
+						<p className="notification-message">{notification.message}</p>
+						<div className="notification-footer">
+							<span className="notification-date">
+								{new Date(notification.createdAt).toLocaleDateString()}
+							</span>
+							<span className="notification-author">By: {notification.createdBy}</span>
+						</div>
+					</div>
+				))}
+			</div>
+		</div>
+	)
+}
+
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
 function AnalyticsManagement() {
 	const [analytics, setAnalytics] = useState<any>({})
 	const [loading, setLoading] = useState(true)
@@ -903,7 +1212,11 @@ function AnalyticsManagement() {
 	return (
 		<div className="tab-content">
 			<h2>System Analytics</h2>
+<<<<<<< HEAD
 
+=======
+			
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
 			<div className="analytics-grid">
 				<div className="analytics-card">
 					<h3>Attendance Analytics</h3>

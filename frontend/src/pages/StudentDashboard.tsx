@@ -69,9 +69,16 @@ interface Fee {
 interface Book {
   id: number;
   title: string;
+<<<<<<< HEAD
   issuedTo?: string; // add this
     dueDate?: string;
 
+=======
+  author: string;
+  isbn: string;
+  available: boolean;
+  category: string;
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
 }
 
 interface Notification {
@@ -92,7 +99,10 @@ const StudentDashboard: React.FC = () => {
   const [marks, setMarks] = useState<Mark[]>([]);
   const [fees, setFees] = useState<Fee[]>([]);
   const [books, setBooks] = useState<Book[]>([]);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -102,17 +112,24 @@ const StudentDashboard: React.FC = () => {
   }, []);
 
   const fetchDashboardData = async () => {
+<<<<<<< HEAD
     setLoading(true);
     setError(null);
 
     try {
       const results = await Promise.allSettled([
+=======
+    try {
+      setLoading(true);
+      const [profileRes, timetableRes, assignmentsRes, attendanceRes, marksRes, feesRes, booksRes, notificationsRes] = await Promise.all([
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
         api.get('/student/profile'),
         api.get('/student/timetable/today'),
         api.get('/student/assignments'),
         api.get('/student/attendance'),
         api.get('/student/marks'),
         api.get('/student/fees'),
+<<<<<<< HEAD
         api.get('/student/notifications'),
         api.get('/student/library')
       ]);
@@ -136,6 +153,23 @@ const StudentDashboard: React.FC = () => {
     } catch (err) {
       setError('Failed to fetch dashboard data');
       console.error(err);
+=======
+        api.get('/library/books/available'),
+        api.get('/student/notifications')
+      ]);
+
+      setProfile(profileRes.data);
+      setTimetable(timetableRes.data.timetable || []);
+      setAssignments(assignmentsRes.data || []);
+      setAttendance(attendanceRes.data || []);
+      setMarks(marksRes.data.marks || []);
+      setFees(feesRes.data.fees || []);
+      setBooks(booksRes.data || []);
+      setNotifications(notificationsRes.data || []);
+    } catch (err) {
+      setError('Failed to fetch dashboard data');
+      console.error('Error fetching dashboard data:', err);
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
     } finally {
       setLoading(false);
     }
@@ -200,56 +234,101 @@ const StudentDashboard: React.FC = () => {
       </div>
 
       <div className="dashboard-tabs">
+<<<<<<< HEAD
         <button
           className={activeTab === 'overview' ? 'active' : ''}
+=======
+        <button 
+          className={activeTab === 'overview' ? 'active' : ''} 
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
           onClick={() => setActiveTab('overview')}
         >
           Overview
         </button>
+<<<<<<< HEAD
         <button
           className={activeTab === 'profile' ? 'active' : ''}
+=======
+        <button 
+          className={activeTab === 'profile' ? 'active' : ''} 
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
           onClick={() => setActiveTab('profile')}
         >
           Profile
         </button>
+<<<<<<< HEAD
         <button
           className={activeTab === 'timetable' ? 'active' : ''}
+=======
+        <button 
+          className={activeTab === 'timetable' ? 'active' : ''} 
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
           onClick={() => setActiveTab('timetable')}
         >
           Timetable
         </button>
+<<<<<<< HEAD
         <button
           className={activeTab === 'assignments' ? 'active' : ''}
+=======
+        <button 
+          className={activeTab === 'assignments' ? 'active' : ''} 
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
           onClick={() => setActiveTab('assignments')}
         >
           Assignments
         </button>
+<<<<<<< HEAD
         <button
           className={activeTab === 'attendance' ? 'active' : ''}
+=======
+        <button 
+          className={activeTab === 'attendance' ? 'active' : ''} 
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
           onClick={() => setActiveTab('attendance')}
         >
           Attendance
         </button>
+<<<<<<< HEAD
         <button
           className={activeTab === 'marks' ? 'active' : ''}
+=======
+        <button 
+          className={activeTab === 'marks' ? 'active' : ''} 
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
           onClick={() => setActiveTab('marks')}
         >
           Marks
         </button>
+<<<<<<< HEAD
         <button
           className={activeTab === 'fees' ? 'active' : ''}
+=======
+        <button 
+          className={activeTab === 'fees' ? 'active' : ''} 
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
           onClick={() => setActiveTab('fees')}
         >
           Fees
         </button>
+<<<<<<< HEAD
         <button
           className={activeTab === 'library' ? 'active' : ''}
+=======
+        <button 
+          className={activeTab === 'library' ? 'active' : ''} 
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
           onClick={() => setActiveTab('library')}
         >
           Library
         </button>
+<<<<<<< HEAD
         <button
           className={activeTab === 'notifications' ? 'active' : ''}
+=======
+        <button 
+          className={activeTab === 'notifications' ? 'active' : ''} 
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
           onClick={() => setActiveTab('notifications')}
         >
           Notifications
@@ -426,7 +505,11 @@ const StudentDashboard: React.FC = () => {
                     </div>
                   </div>
                   <div className="assignment-actions">
+<<<<<<< HEAD
                     <button
+=======
+                    <button 
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
                       className="submit-btn"
                       onClick={() => {
                         const submission = prompt('Enter your submission:');
@@ -512,7 +595,11 @@ const StudentDashboard: React.FC = () => {
                     <span className={`status ${fee.status.toLowerCase()}`}>{fee.status}</span>
                   </div>
                   {fee.amount > fee.paidAmount && (
+<<<<<<< HEAD
                     <button
+=======
+                    <button 
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
                       className="pay-btn"
                       onClick={() => handleFeePayment(fee.id)}
                     >
@@ -531,6 +618,7 @@ const StudentDashboard: React.FC = () => {
               <h2>Library</h2>
             </div>
             <div className="books-list">
+<<<<<<< HEAD
               {books.length === 0 ? (
                 <p>No books issued to you.</p>
               ) : (
@@ -559,6 +647,30 @@ const StudentDashboard: React.FC = () => {
                 </div>
               )}
 
+=======
+              {books.map((book) => (
+                <div key={book.id} className="book-item">
+                  <div className="book-title">{book.title}</div>
+                  <div className="book-author">by {book.author}</div>
+                  <div className="book-category">{book.category}</div>
+                  <div className="book-availability">
+                    <span className={`availability ${book.available ? 'available' : 'unavailable'}`}>
+                      {book.available ? 'Available' : 'Unavailable'}
+                    </span>
+                  </div>
+                  <div className="book-actions">
+                    <button 
+                      className="borrow-btn"
+                      disabled={!book.available}
+                      onClick={() => handleBookBorrow(book.id)}
+                    >
+                      Borrow
+                    </button>
+                    <button className="details-btn">Details</button>
+                  </div>
+                </div>
+              ))}
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
             </div>
           </div>
         )}

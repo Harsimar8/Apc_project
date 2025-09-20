@@ -5,9 +5,12 @@ import com.example.campus.repository.*;
 import com.example.campus.user.User;
 import com.example.campus.user.UserRepository;
 import com.example.campus.user.Role;
+<<<<<<< HEAD
 
 import com.example.campus.entity.Book;
 import com.example.campus.repository.BookRepository;
+=======
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,10 +18,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+<<<<<<< HEAD
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.LocalDate;
+=======
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
 import java.util.*;
 
 @RestController
@@ -27,6 +35,7 @@ public class AdminController {
 
     @Autowired
     private UserRepository userRepository;
+<<<<<<< HEAD
 
     @Autowired
     private AttendanceRepository attendanceRepository;
@@ -56,6 +65,30 @@ public class AdminController {
 
 
 
+=======
+    
+    @Autowired
+    private AttendanceRepository attendanceRepository;
+    
+    @Autowired
+    private AssignmentRepository assignmentRepository;
+    
+    @Autowired
+    private AssignmentSubmissionRepository submissionRepository;
+    
+    @Autowired
+    private MarkRepository markRepository;
+    
+    @Autowired
+    private FeeRepository feeRepository;
+    
+    @Autowired
+    private NotificationRepository notificationRepository;
+    
+    @Autowired
+    private FeedbackRepository feedbackRepository;
+    
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -67,13 +100,21 @@ public class AdminController {
             long totalFaculty = userRepository.findAll().stream().filter(u -> u.getRole() == Role.FACULTY).count();
             long totalAssignments = assignmentRepository.count();
             long pendingFeedback = feedbackRepository.findPendingFeedback().size();
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
             // Fee statistics
             BigDecimal totalFeesCollected = feeRepository.findAll().stream()
                 .filter(f -> f.getStatus() == Fee.PaymentStatus.PAID)
                 .map(Fee::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
             BigDecimal pendingFees = feeRepository.findAll().stream()
                 .filter(f -> f.getStatus() == Fee.PaymentStatus.PENDING)
                 .map(Fee::getAmount)
@@ -111,6 +152,7 @@ public class AdminController {
         return "STU" + year + String.format("%04d", count);
     }
 
+<<<<<<< HEAD
     // ------------------ Library Management ------------------
     // ------------------ Library Management ------------------
     @GetMapping("/library/all")
@@ -197,6 +239,8 @@ public class AdminController {
             return ResponseEntity.ok(Map.of("message", "Notification deleted successfully"));
         }).orElse(ResponseEntity.status(404).body(Map.of("error", "Notification not found")));
     }
+=======
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
 
 
     @PostMapping("/users")
@@ -389,25 +433,41 @@ public class AdminController {
     public ResponseEntity<?> getAnalytics(@AuthenticationPrincipal UserDetails userDetails) {
         try {
             Map<String, Object> analytics = new HashMap<>();
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
             // Attendance analytics
             long totalAttendanceRecords = attendanceRepository.count();
             long presentCount = attendanceRepository.findAll().stream()
                 .filter(a -> a.getStatus() == Attendance.AttendanceStatus.PRESENT)
                 .count();
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
             // Marks analytics
             List<Mark> allMarks = markRepository.findAll();
             double averageMarks = allMarks.stream()
                 .mapToInt(Mark::getMarksObtained)
                 .average()
                 .orElse(0.0);
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
             // Fee analytics
             BigDecimal totalFees = feeRepository.findAll().stream()
                 .map(Fee::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
             analytics.put("totalAttendanceRecords", totalAttendanceRecords);
             analytics.put("attendancePercentage", totalAttendanceRecords > 0 ? (presentCount * 100.0 / totalAttendanceRecords) : 0.0);
             analytics.put("averageMarks", Math.round(averageMarks * 100.0) / 100.0);

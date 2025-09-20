@@ -93,7 +93,10 @@ const FacultyDashboard: React.FC = () => {
 
       setProfile(profileRes.data);
       setStudents(studentsRes.data || []);
+<<<<<<< HEAD
       setNotifications(notificationsRes.data || []);
+=======
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
 
     } catch (err) {
       setError('Failed to fetch dashboard data');
@@ -117,6 +120,7 @@ const FacultyDashboard: React.FC = () => {
       alert('Failed to create assignment');
     }
   };
+<<<<<<< HEAD
   const [newAssignment, setNewAssignment] = useState({
     title: '',
     description: '',
@@ -157,6 +161,20 @@ const FacultyDashboard: React.FC = () => {
         alert('Failed to create notification');
       }
     };
+=======
+
+  const handleCreateNotification = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await api.post('/faculty/notifications', newNotification);
+      alert('Notification created successfully!');
+      setNewNotification({ title: '', message: '', targetRole: 'STUDENT' });
+      fetchDashboardData();
+    } catch (err) {
+      alert('Failed to create notification');
+    }
+  };
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
 
 
 
@@ -220,38 +238,68 @@ const FacultyDashboard: React.FC = () => {
       </div>
 
       <div className="dashboard-tabs">
+<<<<<<< HEAD
         <button
           className={activeTab === 'overview' ? 'active' : ''}
+=======
+        <button 
+          className={activeTab === 'overview' ? 'active' : ''} 
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
           onClick={() => setActiveTab('overview')}
         >
           Overview
         </button>
+<<<<<<< HEAD
         <button
           className={activeTab === 'schedule' ? 'active' : ''}
+=======
+        <button 
+          className={activeTab === 'schedule' ? 'active' : ''} 
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
           onClick={() => setActiveTab('schedule')}
         >
           Schedule
         </button>
+<<<<<<< HEAD
         <button
           className={activeTab === 'assignments' ? 'active' : ''}
+=======
+        <button 
+          className={activeTab === 'assignments' ? 'active' : ''} 
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
           onClick={() => setActiveTab('assignments')}
         >
           Assignments
         </button>
+<<<<<<< HEAD
         <button
           className={activeTab === 'attendance' ? 'active' : ''}
+=======
+        <button 
+          className={activeTab === 'attendance' ? 'active' : ''} 
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
           onClick={() => setActiveTab('attendance')}
         >
           Attendance
         </button>
+<<<<<<< HEAD
         <button
           className={activeTab === 'marks' ? 'active' : ''}
+=======
+        <button 
+          className={activeTab === 'marks' ? 'active' : ''} 
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
           onClick={() => setActiveTab('marks')}
         >
           Marks
         </button>
+<<<<<<< HEAD
         <button
           className={activeTab === 'notifications' ? 'active' : ''}
+=======
+        <button 
+          className={activeTab === 'notifications' ? 'active' : ''} 
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
           onClick={() => setActiveTab('notifications')}
         >
           Notifications
@@ -323,7 +371,11 @@ const FacultyDashboard: React.FC = () => {
       </div>
     </div>
   )}
+<<<<<<< HEAD
 
+=======
+</div>
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
 
         {activeTab === 'assignments' && (
           <div className="assignments-tab">
@@ -448,7 +500,11 @@ const FacultyDashboard: React.FC = () => {
             <div className="marks-header">
               <h2>Marks Management</h2>
             </div>
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
             <div className="marks-forms">
               <div className="form-section">
                 <h3>Add New Mark</h3>
@@ -551,6 +607,7 @@ const FacultyDashboard: React.FC = () => {
         )}
 
         {activeTab === 'notifications' && (
+<<<<<<< HEAD
                   <div className="notifications-tab">
                     <div className="notifications-header">
                       <h2>Notification Management</h2>
@@ -610,6 +667,66 @@ const FacultyDashboard: React.FC = () => {
                   </div>
                 )}
               </div>
+=======
+          <div className="notifications-tab">
+            <div className="notifications-header">
+              <h2>Notification Management</h2>
+            </div>
+            
+            <div className="notification-forms">
+              <div className="form-section">
+                <h3>Create New Notification</h3>
+                <form onSubmit={handleCreateNotification} className="notification-form">
+                  <div className="form-group">
+                    <label>Title:</label>
+                    <input
+                      type="text"
+                      value={newNotification.title}
+                      onChange={(e) => setNewNotification({...newNotification, title: e.target.value})}
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Message:</label>
+                    <textarea
+                      value={newNotification.message}
+                      onChange={(e) => setNewNotification({...newNotification, message: e.target.value})}
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Target Role:</label>
+                    <select
+                      value={newNotification.targetRole}
+                      onChange={(e) => setNewNotification({...newNotification, targetRole: e.target.value})}
+                      required
+                    >
+                      <option value="STUDENT">Student</option>
+                      <option value="FACULTY">Faculty</option>
+                      <option value="ADMIN">Admin</option>
+                    </select>
+                  </div>
+                  <button type="submit" className="submit-btn">Create Notification</button>
+                </form>
+              </div>
+            </div>
+
+            <div className="notifications-list">
+              <h3>Existing Notifications</h3>
+              {notifications.map((notification) => (
+                <div key={notification.id} className="notification-item">
+                  <div className="notification-title">{notification.title}</div>
+                  <div className="notification-message">{notification.message}</div>
+                  <div className="notification-meta">
+                    <span>By: {notification.createdBy}</span>
+                    <span>Date: {new Date(notification.createdAt).toLocaleDateString()}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+>>>>>>> 8dfc984df7925edb720360c4cd8c7229f3b9589d
 
 
     </div>
